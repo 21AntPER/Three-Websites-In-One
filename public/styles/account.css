@@ -1,0 +1,547 @@
+html {
+    font-size: 16px;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body{
+    background: hsl(0, 0%, 18.82%);
+    margin: 0;
+    padding: 0;
+    scrollbar-color: hsl(0, 0%, 56.5%) transparent;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+
+
+ul,li, p{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.next {
+    background-color: #3ea6ff;
+    border: 0;
+    font-size: 1rem;
+    padding: 0.25rem 1rem;
+    color: #fefefe;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.next:hover {
+    cursor: pointer;
+}
+
+#next-password {
+    display: none;
+}
+
+#signIn-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    width: 25rem;
+    height: 28rem;
+    background-color: hsla(0, 0%, 22%);
+    border: hsla(0, 0%, 52%) solid 2px;
+    padding: 48px 40px 36px;
+}
+
+.text {
+    font-size: 1.5rem;
+    text-align: center;
+    line-height: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+#passwordContainer, #forgot-button-wrapper {
+    display: none;
+}
+
+#emailContainer, #passwordContainer {
+    padding-top: 1.5rem;
+}
+
+#email-input, #password-input {
+    width: 98%;
+    height: 100%;
+}
+
+input[type="text"], input[type="password"], input[type="date"] {
+    border: none;
+    outline: none;
+    background-color: hsla(0, 0%, 22%);
+    color: white;
+    font-size: 1rem;
+    width: 100%;
+}
+
+fieldset {
+    border: hsla(0, 0%, 52%) solid 0.1rem;
+    background-color: hsla(0, 0%, 22%);
+}
+
+legend {
+    background-color: hsla(0, 0%, 22%);
+    font-size: 0.85rem;
+}
+
+#emailPrompt, 
+#passPrompt, 
+#createAccountButton, 
+#forgot-button,
+#signIn-instead,
+#virusUpload,
+.options {
+    padding-top: 0.55rem;
+    color: #3ea6ff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#emailPrompt { cursor: default; }
+#emailPrompt span {cursor: pointer;}
+
+#nextContainer, #submit-wrapper {
+    display: flex;
+}
+
+#nextContainer {
+    width: 82.9%;
+    position: absolute;
+    bottom: 6rem;
+}
+
+#createAccountButton-wrapper, 
+#forgot-button-wrapper,
+#signIn-instead-container
+{
+    flex-basis: 100%;
+}
+
+#createAccountButton,
+/* #forgot-button, */
+#signIn-instead {
+    display: inline-block;
+}
+
+@media (max-width: 31.25rem) {
+    #signIn-wrapper {
+        width: 85%;
+        height: 90vh;
+        border: none;
+    }
+    #signInBody {
+        overflow: hidden;
+    }
+}
+img[src="/Macrosoft.png"] {
+    width: 100%;
+    height: auto;
+}
+
+#accountDetails, #recoveryDetails, #signOut-wrapper {
+    position: absolute;
+    top: 2.5%;
+    left: 50%;
+    transform: translate(-50%);
+    width: 50rem;
+    height: 36rem;
+    background-color: hsla(0, 0%, 22%);
+    border: hsla(0, 0%, 52%) solid 2px;
+    align-items: stretch;
+}
+
+#accountDetails, #recoveryDetails {
+    display: flex;
+}
+
+#FullNameInput fieldset, #CreatePassword fieldset {
+    width: 45%;
+}
+
+#FullNameInput, #CreatePassword {
+    display: flex;
+}
+
+#email fieldset {
+    flex-basis: 100%;
+    margin-right: 0;
+    display: flex;
+}
+
+#email {
+    display: flex;
+}
+
+#domain {
+    border: none;
+    outline: none;
+}
+
+#domain:focus {
+    border: none;
+}
+
+#left-content {
+    flex-basis: 65%;
+    margin-left: 1rem;
+}
+
+#left-content > div {
+    margin-top: 0.5rem;
+}
+
+#right-content {
+    flex-basis: 35%;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#left-content #macrosoft, #signOut-wrapper #macrosoft{
+    margin-top: 2rem;
+    width: 40%;
+}
+
+#signOut-wrapper #macrosoft {
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+#left-content .text {
+    text-align: left;
+}
+
+#submit-wrapper {
+    display: flex;
+    position: absolute;
+    bottom: 2rem;
+    width: 63.5%;
+}
+
+@media (max-width: 50.3125rem) {
+    #signUp-body {
+        background-color: hsla(0, 0%, 22%);
+    }
+
+    #accountDetails, #recoveryDetails, #signOut-wrapper {
+        width: 100%;
+        height: 100%;
+        border: none;
+        top: 0;
+    }
+}
+
+@media (max-width: 30.625rem) {
+    #right-content {
+        display: none;
+    }
+
+    #left-content {
+        flex-basis: 90%;
+    }
+    #submit-wrapper {
+        width: 90%;
+    }
+}
+
+#recoveryDetails {
+    display: none;
+}
+
+#recoveryDetails input{
+    border: hsla(0, 0%, 52%) solid 0.1rem;
+}
+
+#recoveryDetails input:focus{
+    border: #3ea6ff solid 0.1rem;
+}
+
+#phoneNum, #changeDOBinput {
+    width: 13em;
+}
+
+select {
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: hsla(0, 0%, 22%);
+    border: hsla(0, 0%, 52%) solid 0.1rem;
+    height: 1.75rem;
+}
+
+#countryCodeSelect {
+    width: 4.75rem;
+}
+
+#recoveryDetails #left-content p, .label-extraDetails {
+    margin: 0.5rem 0;
+    font-size: 0.8rem;
+    color: hsla(0, 0%, 78%);
+}
+
+#answer {
+    width: 100%;
+}
+
+#DOB {
+    display: flex;
+    flex-direction: row;
+}
+
+#DOB > * {
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+}
+
+#DOB select {
+    width: 100%;
+}
+
+#gender {
+    margin-top: 1rem;
+    width: 97%;
+}
+
+.prompts { margin-top: 0.25rem; }
+
+.prompts > li {
+    color: rgb(255, 87, 87);
+    margin-left: 0.25rem;
+    font-size: 0.8rem;
+}
+
+.prompts > li::before {
+    content: '⚠ ';
+}
+
+#profile-container {
+    width: 5rem;
+    height: 5rem;
+    overflow: hidden;
+    background-color: black;
+    border-radius: 10rem;
+}
+
+#profile-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#signOut-wrapper {
+    text-align: center;
+}
+
+#flex-profileDetails {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#fullNameContainer {
+    width: 78%;
+    margin-left: 0.5rem;
+}
+
+.updateInput {
+    width: 100%;
+}
+
+#ChangePictureButton {
+    margin-top: 0.25rem;
+    padding-inline: 0.2rem;
+}
+
+#securityQA-container {
+    width: 95%;
+    margin-top: 1.5rem;
+}
+
+#changeDOBinput {
+    text-align: center;
+    border: hsla(0, 0%, 52%) solid 0.1rem;
+}
+
+#changeGenderInput {
+    width: auto;
+}
+
+#extraDetailsContainer {
+    margin-top: 1.5rem;
+    display: flex;
+}
+
+#extraDetailsContainer > * {
+    flex-basis: 27%;
+}
+
+#changeNumber {
+    flex-basis: 46%;
+}
+
+.label-extraDetails {
+    font-size: 0.9rem;
+}
+
+@media (max-width: 40rem) {
+    #extraDetailsContainer > * {
+        flex-basis: 100%;
+        margin-top: 1rem;
+    }
+    #extraDetailsContainer {
+        flex-direction: column;
+    }
+}
+
+#options-wrapper {
+    /* position: absolute; */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10%, 1fr));
+    column-gap: 1rem;
+    width: 100%;
+    /* bottom: 2rem; */
+    margin: 0 auto;
+    margin-top: 1.5rem;
+}
+
+.options {
+    text-align: center;
+    cursor: default;
+}
+
+.options span {
+    cursor: pointer;
+}
+
+#loadingContainer {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: hsla(0, 0%, 38%);
+    opacity: 0.95;
+    top: 0;
+    flex-direction: column;
+    z-index: 1;
+}
+
+#loadingContainer #text {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* #extraDetailsContainer #countryCodeSelect:focus, 
+#extraDetailsContainer #phoneNum:focus,
+#extraDetailsContainer #changeDOBinput:focus,
+#extraDetailsContainer #changeGenderInput:focus 
+#phoneNum-container #countryCodeSelect:focus{
+    border: #3ea6ff solid 0.1rem;
+} */
+
+select:focus {
+    border: #3ea6ff solid 0.1rem;
+}
+
+#questions {
+    width: 101.24%;
+    margin-bottom: 0.5rem;
+}
+
+#changeRecoveryEmail fieldset {
+    width: 91%;
+    margin: 0 auto;
+}
+
+#changeRecoveryEmail, #securityQA-authentication {
+    margin-top: 0.75rem;
+}
+
+#phoneNum-container{
+    display: flex;
+}
+
+#phoneNum-container #countryCodeSelect {
+    margin-right: 0.5rem;
+    flex-basis: 25%;
+}
+
+#phoneNum-container #phoneNum {
+    flex-basis: 75%;
+}
+
+#testNumber, #RecoverFromNumber {
+    width: 100%;
+}
+
+#securityQA-authentication {
+    width: 100%;
+}
+
+#ResetPassword {
+    display: none;
+    flex-direction: column;
+}
+
+#ResetPassword fieldset {
+    margin-bottom: 0.5rem;
+}
+
+#RecoveryFeilds {
+    display: flex;
+    height: 30%;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#fullName {
+    margin-top: 3rem;
+}
+
+#usernameWrapper {
+    display: flex;
+    background-color: hsla(0, 0%, 28%, 0.5);
+    height: 14.5em;
+    overflow-y: auto;
+    align-items: center;
+    flex-direction: column;
+}
+
+#virusContainer {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+#virusProgressBar {
+    width: 100%;
+    border-radius: 0;
+    height: 2rem;
+    color: green;
+}
+
+#HACK {
+    font-family: 'Roboto', sans-serif;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+}

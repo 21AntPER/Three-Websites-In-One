@@ -1,0 +1,114 @@
+html {
+font-size: 16px;
+}
+
+body {
+    background: rgb(2,0,36);
+    background-image: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%); 
+}
+
+#calcContainer {
+    /* width: 25rem; */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background-color: grey;
+}
+
+#keys{
+    display: flex;
+    height: 65%;
+}
+
+#leftKeys {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 20%;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    flex-basis: 85%;
+}
+
+#leftKeys * {
+    display: flex;
+    background-color: rgb(22, 22, 22);
+    border: black 1px solid;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+#leftKeys *, #rightKeys * {
+    cursor: pointer;
+}
+
+#rightKeys {
+    flex-basis: 15%;
+    padding: 0.5rem;
+    padding-left: 0;
+}
+
+#rightKeys * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 18.2%;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    background-color: #ff4e00;
+    background-image: linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%);
+    color: white;
+    font-weight: bold;
+
+}
+
+#solveButton {
+    height: 27%;
+    margin-bottom: 0;
+}
+
+#display * {
+    background-color: white;
+    border-bottom: white 1px solid;
+}
+
+#previousOperand {
+    height: 20%;
+    font-size: 1.25rem;
+}
+
+#currentOperand, #previousOperand {
+    display: flex;
+    padding-right: 0.3rem;
+    align-items: center;
+    justify-content: end;
+    background-color: rgb(22, 22, 22);
+} 
+
+#currentOperand {
+    height: 80%;
+    font-size: 2.25rem;
+}
+
+#display {
+    height: 30%;
+}
+
+#BracketsButton {
+    background: none;
+    display: flex;
+    justify-content: space-between;
+    border: none;
+}
+
+.brackets {
+    border: none;
+    width: 45%;
+    font-size: 1.35rem;
+    height: 100%;
+}

@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+html {
+    font-size: 16px;
+}
+
+body{
+    background: rgb(235, 235, 235);
+    margin: 0;
+    padding: 0;
+    scrollbar-color: rgb(144, 144, 144) transparent;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 0;
+    border: none;
+    outline: none;
+}
+
+a, a:hover, a:focus, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+#head {
+    background: rgb(221, 221, 221);
+    text-align: center;
+    border-bottom: hsl(0, 0%, 56.5%) 0.1rem solid;
+}
+
+#head img {
+    width: 20rem;
+}
+
+#slogan {
+    background: rgb(255,83,0);
+    background: linear-gradient(90deg, rgba(255,83,0,1) 0%, rgba(69,253,29,1) 33.34%, rgba(47,146,253,1) 66.34%, rgba(255,246,0,1) 100%); 
+    height: 20rem;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    border-bottom: hsl(0, 0%, 56.5%) 0.1rem solid;
+    color: white;
+    justify-content: center;
+}
+
+#appsContainer {
+    margin-block: 2rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.apps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: rgb(221, 221, 221);
+    width: 9rem;
+    height: 9rem;
+}
+
+#scufftubeAppImg {
+    width: 7.5rem;
+    height: 7.5rem;
+}
+
+.apps img {
+    width: 6.5rem;
+    height: 6.5rem;
+}
+
+#article {
+    margin-top: 1rem;
+}
+
+#gafam {
+    display: flex;
+    justify-content: space-around;
+}
+
+.gafamAbbr {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: hsl(0, 0%, 40%);
+}
+
+#account {
+    margin: 2.5rem auto;
+    width: 60%;
+    padding: 2rem 1rem;
+    background: rgb(221, 221, 221);
+    border-radius: 2rem;
+}
+
+.accountButton {
+    margin: 0.5rem auto;
+    display: inline-block;
+    padding: 0.5rem;
+    background: #3ea6ff;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: #fefefe;
+}
+
+blockquote::before {
+    content: '\201C';
+}
+
+blockquote::after {
+    content: '\201D';
+}
+
+@media (max-width: 28.75rem) {
+    .apps img{
+        width: 5rem;
+        height: 5rem;
+    }
+    .apps {
+        width: 6.93rem;
+        height: 6.93rem;
+    }
+    #scufftubeAppImg {
+        width: 5.7rem;
+        height: 5.7rem;
+    }
+    .gafamAbbr {
+        font-size: 1.1rem;
+    }
+}
