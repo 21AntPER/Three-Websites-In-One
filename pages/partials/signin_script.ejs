@@ -1,0 +1,101 @@
+<script>
+    window.onload = () => {document.querySelector('input[type="checkbox"]').checked = false}
+
+    if (localStorage.getItem('signedIn') != null) {
+        window.location = '/manageAccount'
+    }
+
+    const inputFeilds = document.getElementsByClassName('input-feilds');
+    const fieldsets = document.getElementsByTagName('fieldset')
+
+    const accounts = JSON.parse(`<%- accounts %>`);
+
+    var accountInfo;
+
+    for (i of inputFeilds) {
+        document.getElementById(i.id).addEventListener('focus', (e) => {
+            e.target.parentElement.style.border = '#3ea6ff solid 0.1rem'
+        })
+        document.getElementById(i.id).addEventListener('blur', (e) => {
+            e.target.parentElement.style.border = 'hsla(0, 0%, 52%) solid 0.1rem'
+        })
+    }
+
+    document.querySelector('input[type="checkbox"]')
+    .onchange = (e) => {
+        if (e.target.checked) {
+            document.getElementById('password-input').type = 'text';
+        } else {
+            document.getElementById('password-input').type = 'password';
+        }
+    }
+
+    const emailFeild = document.getElementById('emailContainer');
+    const passwordField = document.getElementById('passwordContainer');
+    const createAccountButton = document.getElementById('createAccountButton-wrapper');
+    const ForgotButtonWrapper = document.getElementById('forgot-button-wrapper');
+    const emailPrompts = document.getElementById('emailError');
+    const passwordPrompts = document.getElementById('passwordError');
+    const toPasswordButton = document.getElementById('next-username');
+    const submitButton = document.getElementById('next-password')
+    const forgotPasswordButton = document.getElementById('forgot-button');
+    const forgotEmailButton = document.getElementById('emailPrompt');
+
+    toPasswordButton
+    .onclick = () => {
+        var emailValue = document.getElementById('email-input').value;
+        if (emailValue.includes("@lookinside.com")) {
+            emailValue = emailValue.slice(0, emailValue.indexOf("@lookinside.com") )
+        }
+        accounts.forEach( (item) => {
+            if (emailValue === item.username) {
+                accountInfo = item
+            }
+        } )
+        if (accountInfo != undefined) {
+            emailFeild.style.display = 'none'
+            passwordField.style.display = 'block'
+            createAccountButton.style.display = 'none'
+            ForgotButtonWrapper.style.display = 'inline-block'
+            toPasswordButton.style.display = 'none'
+            submitButton.style.display = 'block'
+        } else {
+            emailFeild.children[0].style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            emailPrompts.innerHTML =
+            "<li>username doesn't exist</li>"
+        }
+    }
+
+    submitButton.onclick = () => {
+        const passwordValue = document.getElementById('password-input').value;
+        console.log(accountInfo.password === passwordValue)
+        if (passwordValue === accountInfo.password) {
+            const SignedInAccount = JSON.stringify( {
+                id: accountInfo._id,
+                firstName: accountInfo.Firstname,
+                lastName: accountInfo.Lastname,
+                profile: accountInfo.profile
+            } )
+            localStorage.setItem('signedIn', SignedInAccount)
+            window.location = `/manageAccount/${accountInfo._id}`
+        } else {
+            passwordField.children[0].style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            passwordPrompts.innerHTML =
+            "<li>incorrect password</li>"
+        }
+    }
+
+    document.getElementById('createAccountButton')
+    .onclick = () => {
+        window.location = '/signup'
+    }
+
+    forgotPasswordButton.onclick = () => {
+        window.location = '/forgot-password'
+    }
+
+    forgotEmailButton.children[0].onclick = () => {
+        window.location = '/forgot-email'
+    }
+
+</script>

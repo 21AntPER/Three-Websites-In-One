@@ -1,0 +1,141 @@
+<script>
+    if (localStorage.getItem("signedIn") === null) {
+        window.location = '/signin'
+    }
+
+    const upload_container = document.getElementById('upload-container');
+    const vid_input = document.getElementById('vid-input');
+    const thumbnail_input = document.getElementById('thumbnail');
+    const thumbnail_preview = document.getElementById('thumbnail-preview');
+    const video_preview = document.getElementById('videoplayback');
+    const uploadform = document.getElementById('upload_form');
+    const thumbnail_button = document.getElementById('thumbnail_upload_img');
+    const submitButton = document.getElementById('submit-button');
+    const thumbnail_container = document.getElementById('thumbnail-preview-container');
+    const body = document.getElementById('studio');
+    var Thumbnailreader = new FileReader();
+    const fileSize = Number(`<%- fileSize %>`);
+
+    var DefaultThumbnailURL;
+    
+    const defaultThumbnail =  async () => {
+        var fr = new FileReader();
+        var canvas = document.createElement('canvas');
+        canvas.width = video_preview.videoWidth;
+        canvas.height = video_preview.videoHeight;
+        canvas.getContext("2d").drawImage(video_preview, 0, 0, video_preview.videoWidth, video_preview.videoHeight);
+        var blob = await new Promise(resolve => canvas.toBlob( blob => resolve(blob) ))
+        return blob
+    }
+
+    const titleInput = document.getElementById('title');
+    const descInput = document.getElementById('desc');
+
+    var thumbnailDataURL;
+
+    upload_container.addEventListener('click', () => {
+        vid_input.click()
+
+        vid_input.addEventListener('change', () => {
+            if ( vid_input.files[0].type != 'video/mp4' ){
+                alert("Only video files of type mp4 are accpetable")
+            } else if ( (fileSize + (vid_input.files[0].size / 1000000)) >= 481.300480 ) {
+                alert(`Video exceeds Total Memory Storage Limit \n\n Upload a video of less than: \n ${481.300480 - fileSize}mb`)
+            } else if ( vid_input.files[0].size >= 209747058 ) {
+                alert("Video is too large \n\n videos must be less than 209mb")
+            } else {
+                // video_preview.currentTime = Math.floor(video_preview.duration / 2)
+                // thumbnail_preview.src = defaultThumbnail();
+                // video_preview.currentTime = 0
+                upload_container.style.display = "none";
+                uploadform.style.display = "block";
+                video_preview.src = URL.createObjectURL(vid_input.files[0])
+                setTimeout( () => {
+                    video_preview.currentTime = Math.floor(video_preview.duration / 2)
+                    setTimeout( () => {
+                        (async () => {
+                            const blob = await defaultThumbnail()
+                            // console.log(blob)
+                            Thumbnailreader.onload = () => {
+                                DefaultThumbnailURL = Thumbnailreader.result
+                            }
+                            Thumbnailreader.readAsDataURL(blob)
+                            thumbnail_preview.src = URL.createObjectURL(blob)
+                            video_preview.currentTime = 0
+                            })();
+                    }, 1000 );
+                }, 100 )
+            }
+        } )
+    } )
+
+    thumbnail_button.addEventListener('click', () => {
+        thumbnail_input.click()
+        // console.log(thumbnail_input.files.length)
+
+        thumbnail_input.addEventListener('change', () => {
+            if (thumbnail_input.files[0].type.includes("image")) {
+                if ( !(thumbnail_input.files[0].size > 2000000) ){
+                    Thumbnailreader.onload = () => {
+                        thumbnailDataURL = Thumbnailreader.result
+                        thumbnail_preview.src = URL.createObjectURL(thumbnail_input.files[0])
+                        thumbnail_container.style.backgroundColor = "#000000"
+                    }
+                    Thumbnailreader.readAsDataURL(thumbnail_input.files[0])
+                    // console.log(thumbnail_input.files[0])
+                } else {
+                    alert('File has to be below 2MB of size')
+                }
+            } else {
+                alert('Only image files are allowed')
+            }
+        } )
+    } )
+
+    submitButton.addEventListener('click', () => {
+
+        if (titleInput.value.trim() === "") {
+            alert("Title input field not filled")
+            return 0;
+        }
+
+        // body.innerHTML += `
+        // <h2 id="paragraphprompt">UPLOADING.......</h2>
+        // <div id="loadingDiv"></div>
+        // <div id="container"></div>
+        // <div id="loading">
+        //     <div id="loading-container-1"></div>
+        //     <div id="loading-container-2"></div>
+        // </div>
+        // `
+
+        document.getElementById("loadingContainer").style.display = "flex"
+
+        var formData = new FormData();
+
+        // console.log(video_preview.srcObject)
+
+        const {id, firstName, lastName, profile} = JSON.parse(localStorage.getItem("signedIn"))
+
+        // console.log(profile)
+
+        formData.append("title", titleInput.value)
+        formData.append("description", descInput.value)
+        formData.append("video", vid_input.files[0])
+        if (thumbnail_input.files[0] === undefined) {
+            formData.append("thumbnail", DefaultThumbnailURL)
+        } else {
+            formData.append("thumbnail", thumbnailDataURL)
+        }
+        formData.append("FullName", `${firstName} ${lastName}`)
+        formData.append("profile", profile)
+        formData.append("account", id)
+        fetch( '/videos/upload', {
+            method: 'POST',
+            body: formData
+        } )
+        .then( (response) => window.location = '/scufftube'  )
+        .catch( (err) => console.log(err) )
+    } )
+
+</script>

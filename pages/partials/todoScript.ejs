@@ -1,0 +1,202 @@
+<script>
+    window.onload = () => {
+        if (localStorage.getItem("tasks") === null) {
+            localStorage.setItem("tasks", JSON.stringify([]))
+        }
+        if (localStorage.getItem("signedIn") === null) {
+            window.location = "/signin"
+        }
+    }
+
+    var profile, id;
+
+    if (localStorage.getItem("signedIn") != null) {
+      profile = JSON.parse(localStorage.getItem("signedIn")).profile;
+      id = JSON.parse(localStorage.getItem("signedIn")).id;
+
+      if ( profile != "" ) {
+         document.getElementById('profile-pic').src = profile
+      }
+      document.getElementById('profile-container').style.display = 'block'
+      document.getElementById('profile-pic').onclick = () => {location = `/manageAccount/${id}`}
+   }
+
+    var selectedTask;
+
+    const taskTitleForm = document.getElementById("taskTitle-Form")
+    const taskInfo = document.getElementById("taskInfo")
+
+    document.getElementById("todoInput").onkeyup = (e) => {
+        if (e.keyCode === 13) {
+            document.getElementById("enterTask").click()
+        }
+    }
+
+    function inputTasks() {
+        if (localStorage.getItem("tasks") === null) {
+            return
+        }
+        const taskList = document.getElementById("tasks")
+        taskList.innerHTML = `<li style="text-align: center;font-weight: bold;font-size: 1.5rem;">TASKS</li>`
+
+        var tasks = JSON.parse(localStorage.getItem("tasks"))
+        for (i of tasks) {
+            if (i.account === id) {
+                var stringifiedItem = JSON.stringify(i)
+
+                var newTaskListItem =  document.createElement("li")
+                newTaskListItem.classList.add("task")
+                newTaskListItem.dataset.task = stringifiedItem
+                newTaskListItem.innerHTML = `
+                <h4 class="taskTitle">${i.title}</h2>
+                <button class="deleteButton"><i class="fa fa-trash-o"></i></button>
+                <button class="completeButton">&#10003</button>
+                <button class="incompleteButton" style="display: none;">&#9932</button>
+                `
+
+                if (i.striked === true) {
+                    newTaskListItem.children[0].style.textDecoration = "line-through"
+                    newTaskListItem.children[2].style.display = "none"
+                    newTaskListItem.children[3].style.display = "inline-block"
+                }
+
+                taskList.appendChild(newTaskListItem)
+            }
+        }
+        const tasksElements = document.getElementsByClassName("task");
+        
+        for (i of tasksElements) {
+            i.children[0].onclick = (e) => {
+                taskTitleForm.readOnly = true
+                taskInfo.readOnly = true
+
+                if (selectedTask != undefined) {
+                    selectedTask.style.background = ''
+                }
+
+                var task = e.target.parentElement
+                task.style.background = "hsl(0, 0%, 56.5%)"
+                selectedTask = task
+
+                var taskDetails = JSON.parse(task.dataset.task)
+                taskTitleForm.value = taskDetails.title
+                taskInfo.value = taskDetails.info
+            }
+
+            i.children[1].onclick = (e) => {  // delete button
+                const ul = e.target.parentElement.parentElement.parentElement
+                const li = e.target.parentElement.parentElement
+
+                var tasks = JSON.parse(localStorage.getItem("tasks"))
+                var task = li.dataset.task
+
+                for (i in tasks) {
+                    // console.log(JSON.stringify(tasks[i]) === task)
+                    if (JSON.stringify(tasks[i]) === task) {
+                        tasks.splice(i, 1)
+                        localStorage.setItem("tasks", JSON.stringify(tasks))
+                        break;
+                    }
+                }
+                ul.removeChild(li)
+            }
+
+            i.children[2].onclick = (e) => {  // complete button
+                var tasks = JSON.parse(localStorage.getItem("tasks"))
+                var taskElement = e.target.parentElement.children
+                var task = e.target.parentElement.dataset.task
+
+                for (i in tasks) {
+                    // console.log(JSON.stringify(tasks[i]) === task)
+                    if (JSON.stringify(tasks[i]) === task) {
+                        tasks[i].striked = true
+                        localStorage.setItem("tasks", JSON.stringify(tasks))
+                        break;
+                    }
+                }
+
+                e.target.parentElement.children[0].style.textDecoration = "line-through"
+                e.target.parentElement.children[2].style.display = "none"
+                e.target.parentElement.children[3].style.display = "inline-block"
+            }
+
+            i.children[3].onclick = (e) => {  // incomplete button
+                var tasks = JSON.parse(localStorage.getItem("tasks"))
+                var taskElement = e.target.parentElement.children
+                var task = e.target.parentElement.dataset.task
+
+                for (i in tasks) {
+                    // console.log(JSON.stringify(tasks[i]) === task)
+                    if (JSON.stringify(tasks[i]) === task) {
+                        tasks[i].striked = false
+                        localStorage.setItem("tasks", JSON.stringify(tasks))
+                        break;
+                    }
+                }
+
+                taskElement[0].style.textDecoration = "none"
+                taskElement[3].style.display = "none"
+                taskElement[2].style.display = "inline-block"
+            }
+        }
+        if (document.getElementsByClassName("task").length >= 1) {
+            document.getElementsByClassName("task")[0].children[0].click()
+        }
+    }
+
+    inputTasks()
+
+    document.getElementById("enterTask").onclick = (e) => {
+        var newTask = e.target.previousElementSibling.value
+
+        var tasks = localStorage.getItem("tasks")
+        // console.log(tasks)
+        if (tasks != null) {
+            tasks = JSON.parse(tasks)
+            for (i of tasks) {
+                if (i.title === newTask && i.id === id) {
+                    alert("Task already there")
+                    return
+                }
+            }
+        } else {
+            tasks = []
+        }
+
+        tasks.push({title: newTask, info: "", striked: false, account: id})
+        localStorage.setItem("tasks", JSON.stringify(tasks))
+
+        inputTasks()
+    }
+
+    document.getElementById("editDetails").onclick = () => {
+        taskTitleForm.readOnly = false
+        taskInfo.readOnly = false
+    }
+
+    document.getElementById("UpdateDetails").onclick = () => {
+        var tasks = JSON.parse(localStorage.getItem("tasks"))
+        var taskDetails = JSON.parse(selectedTask.dataset.task)
+
+        taskDetails.title = taskTitleForm.value
+        taskDetails.info = taskInfo.value
+
+        var taskInTasks;
+
+        for (i in tasks) {
+            if (tasks[i].title === taskTitleForm.value) {
+                alert("task title already there")
+                return
+            } else if (JSON.stringify(tasks[i]) === selectedTask.dataset.task) {
+                taskInTasks = i
+            }
+        }
+
+        tasks[taskInTasks] = taskDetails
+
+        localStorage.setItem("tasks", JSON.stringify(tasks))
+
+        selectedTask.dataset.task = JSON.stringify(taskDetails)
+        selectedTask.children[0].textContent = taskTitleForm.value
+    }
+</script>

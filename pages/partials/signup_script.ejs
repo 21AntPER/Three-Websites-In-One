@@ -1,0 +1,362 @@
+<script>
+    window.onload = () => {document.querySelector('input[type="checkbox"]').checked = false}
+
+    const newAccountDetails = new FormData();
+
+    const inputFeilds = document.getElementsByClassName('input-feildsCreate');
+
+    const firstName = document.getElementById('firstName');
+    const lastName = document.getElementById('lastName');
+    const NamePrompts = document.getElementById('FullNamePrompts');
+    const email = document.getElementById('createEmail');
+    const EmailPrompts = document.getElementById('EmailPrompts');
+    const password = document.getElementById('Createpassword');
+    const confirmPassword = document.getElementById('confirm-password');
+    const PasswordPrompts = document.getElementById('PasswordPrompts');
+    const domain = document.getElementById('domain');
+
+    const questions = document.getElementById('questions');
+    const answer = document.getElementById('answer');
+
+    const emailsArray = "<%- emails %>".split(",")
+
+    // console.log(emailsArray)
+
+    for (i of inputFeilds) {
+        document.getElementById(i.id).addEventListener('focus', (e) => {
+            e.target.parentElement.style.border = '#3ea6ff solid 0.1rem'
+        })
+        document.getElementById(i.id).addEventListener('blur', (e) => {
+            e.target.parentElement.style.border = 'hsla(0, 0%, 52%) solid 0.1rem'
+        })
+    }
+
+    document.getElementById('createEmail').onfocus = (e) => {
+        e.target.parentElement.style.border = '#3ea6ff solid 0.1rem'
+    }
+    document.getElementById('createEmail').onblur =  (e) => {
+            e.target.parentElement.style.border = 'hsla(0, 0%, 52%) solid 0.1rem'
+        }
+
+    document.querySelector('input[type="checkbox"]')
+    .onchange = (e) => {
+        if (e.target.checked) {
+            document.getElementById('password-input').type = 'text';
+        } else {
+            document.getElementById('password-input').type = 'password';
+        }
+    }
+
+    var selected, selectedIndex;
+
+    document.getElementById('countryCodeSelect').onchange = (e) => {
+        if (selectedIndex != undefined && selected != undefined) {
+            selectedIndex.textContent = selected
+        }
+
+        selectedIndex = e.target.selectedOptions[0]
+        selected = e.target.selectedOptions[0].textContent
+        
+        e.target.selectedOptions[0].textContent = e.target.value
+    }
+
+    document.getElementById('phoneNum').oninput = (e) => {
+        if (e.data === null) {
+            return
+        }
+        e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')
+        if (e.target.value.length === 3 || e.target.value.length === 7) {
+            e.target.value += '-'
+        } else if (e.target.value.length > 3 && e.target.value.length < 6) {
+            if (e.target.value[3] != "-") {
+                e.target.value = e.target.value.slice(0, 3) + "-" + e.target.value.slice(3)
+            }
+        } else if (e.target.value.length > 6) {
+            if (e.target.value[3] != "-" && e.target.value[6] != "-") {
+            e.target.value = e.target.value.slice(0, 3) + "-" + e.target.value.slice(3, 6) + "-" + e.target.value.slice(6)
+            }
+        }
+    }
+
+    document.getElementById('next-CreateAccount').onclick = () => {
+        var validation = true
+        NamePrompts.innerHTML = ''
+        EmailPrompts.innerHTML = ''
+        PasswordPrompts.innerHTML = ''
+
+        if (firstName.value.trim() === '') {
+            firstName.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            NamePrompts.innerHTML += '<li>first name field must not be empty</li>'
+            validation = false
+        }
+        if (firstName.value.trim() != firstName.value ||  lastName.value.trim() != lastName.value) {
+            firstName.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            lastName.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            NamePrompts.innerHTML += '<li>names cannot start or end with blank space</li>'
+            validation = false
+        }
+
+        if (firstName.value.length > 36 || lastName.value.length > 36) {
+            firstName.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            lastName.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            NamePrompts.innerHTML += '<li>maxlength of each name is 36 characters</li>'
+            validation = false
+        }
+
+        if (email.value.trim() === '') {
+            email.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            EmailPrompts.innerHTML += 
+            '<li>email field must not be empty</li>'
+            validation = false
+        }
+
+        if (email.value.replace(/[^0-9^a-z.^A-Z]/g, "") != email.value) {
+            email.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            EmailPrompts.innerHTML += 
+            '<li>usernames can contain letters (a-z), numbers (0-9), and periods (.)</li>'
+            validation = false
+        }
+
+        if (emailsArray.includes(email.value)) {
+            email.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            EmailPrompts.innerHTML +=
+            '<li>username is taken</li>'
+            validation = false
+        }
+
+        if (password.value.trim() === '') {
+            password.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            PasswordPrompts.innerHTML += 
+            '<li>passwords fields cannot be empty</li>'
+            validation = false
+        } else {
+            if (password.value.length < 8) {
+                password.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                PasswordPrompts.innerHTML += 
+                '<li>password must be of length 8 characters or more</li>'
+                validation = false
+            }
+
+            if (
+                password.value.replace(/[0-9a-zA-Z]/g, '').replace(' ', '') === '' ||
+                password.value.replace(/[^a-z^A-Z]/g, '').replace(' ', '') === '' ||
+                password.value.replace(/[^0-9]/g, '').replace(' ', '') === ''
+            ) {
+                password.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                PasswordPrompts.innerHTML += 
+                '<li>passwords must contain some mix of letters, numbers, and symbols</li>'
+                validation = false
+            }
+
+            if (password.value.includes(' ')) {
+                password.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                PasswordPrompts.innerHTML += 
+                '<li>passwords cannot contain blank spaces</li>'
+                validation = false
+            }
+
+            if ( 
+                password.value.replace(/[^a-z]/g, '').length === 0 ||
+                password.value.replace(/[^A-Z]/g, '').length === 0
+            ) {
+                password.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                PasswordPrompts.innerHTML += 
+                '<li>passwords must contain uppercase and lowercase letters</li>'
+                validation = false
+            }
+
+            if (password.value != confirmPassword.value) {
+                password.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                confirmPassword.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                PasswordPrompts.innerHTML += 
+                '<li>passwords do not match</li>'
+                validation = false
+            }
+        }
+
+        if (validation) {
+            newAccountDetails.append("Firstname", firstName.value)
+            newAccountDetails.append("Lastname", lastName.value)
+            newAccountDetails.append("username", email.value)
+            newAccountDetails.append("password", password.value)
+            document.getElementById('accountDetails').style.display = "none";
+            document.getElementById('recoveryDetails').style.display = "flex";
+            var greetName = newAccountDetails.get("Firstname")[0].toUpperCase()+newAccountDetails.get("Firstname").slice(1)
+            document.getElementById('greetingtext').innerHTML = 
+            `${greetName}, welcome to Macrosoft<br>Recovery Details`
+        }
+    }
+
+    const countryCodeSelect = document.getElementById('countryCodeSelect');
+    const phoneNum = document.getElementById('phoneNum');
+    const phoneNumPrompt = document.getElementById('phoneNumPrompts');
+    const MonthSelect = document.getElementById('MonthSelect');
+    const DayofBirth = document.getElementById('DayofBirth');
+    const YearofBirth = document.getElementById('YearofBirth');
+    const DOBprompts = document.getElementById('DOBprompts');
+    const securityQAPrompts = document.getElementById('securityQA');
+    const gender = document.getElementById('gender');
+
+    const RecoveryInputFeilds = document.getElementsByClassName('input-feildsRecover');
+
+    for (i of RecoveryInputFeilds) {
+        document.getElementById(i.id).addEventListener('focus', (e) => {
+            e.target.style.border = '#3ea6ff solid 0.1rem'
+        })
+        document.getElementById(i.id).addEventListener('blur', (e) => {
+            e.target.style.border = 'hsla(0, 0%, 52%) solid 0.1rem'
+        })
+    }
+
+    document.getElementById('next-recoveryDetails')
+    .onclick = () => {
+        var validation = true
+
+        phoneNumPrompt.innerHTML = ''
+        DOBprompts.innerHTML = ''
+
+        if (
+            countryCodeSelect.value === '' || phoneNum.value === ''
+        ) {
+            countryCodeSelect.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            phoneNum.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            phoneNumPrompt.innerHTML +=
+            '<li>phone number and country code input required</li>'
+            validation = false
+        }
+
+        if (1 <= phoneNum.value.length && phoneNum.value.length < 12) {
+            phoneNum.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            phoneNumPrompt.innerHTML +=
+            '<li>invalid phone number</li>'
+            validation = false
+        }
+
+        if (
+            MonthSelect.value === '' ||
+            DayofBirth.value === '' ||
+            YearofBirth.value === ''
+        ) {
+            MonthSelect.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            DayofBirth.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            YearofBirth.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            DOBprompts.innerHTML += 
+            '<li>your DOB is required for certain reasons</li>'
+            validation = false
+        }
+
+        if (MonthSelect.value != '' &&
+            DayofBirth.value != '' &&
+            YearofBirth.value != ''
+        ) {
+            if (
+                MonthSelect.value === "0" ||
+                MonthSelect.value === "2" ||
+                MonthSelect.value === "4" ||
+                MonthSelect.value === "6" ||
+                MonthSelect.value === "7" ||
+                MonthSelect.value === "9" ||
+                MonthSelect.value === "11"
+            ) {
+                if ( DayofBirth.value > 31 || DayofBirth.value < 1 ) {
+                    DayofBirth.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                    DOBprompts.innerHTML += 
+                    '<li>invalid day</li>'
+                    validation = false
+                }
+            } else if (MonthSelect.value === '1') {
+                if (
+                    YearofBirth.value % 4 === 0
+                ) {
+                    if ( DayofBirth.value > 29 || DayofBirth.value < 1 ) {
+                        DayofBirth.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                        DOBprompts.innerHTML += 
+                        '<li>invalid day</li>'
+                        validation = false
+                    }
+                } else {
+                    if ( DayofBirth.value > 28 || DayofBirth.value < 1 ) {
+                        DayofBirth.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                        DOBprompts.innerHTML += 
+                        '<li>invalid day</li>'
+                        validation = false
+                    }
+                }
+            } else {
+                if ( DayofBirth.value > 30 || DayofBirth.value < 1 ) {
+                    DayofBirth.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                    DOBprompts.innerHTML += 
+                    '<li>invalid day</li>'
+                    validation = false
+                }
+            }
+            if (YearofBirth.value > new Date().getFullYear()) {
+                YearofBirth.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                DOBprompts.innerHTML += 
+                    '<li>invalid year</li>'
+                    validation = false
+            } else if (YearofBirth.value < new Date().getFullYear() - 120) {
+                YearofBirth.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                DOBprompts.innerHTML +=
+                '<li>invalid year</li>'
+                validation = false
+            } else if (new Date().getFullYear() - YearofBirth.value < 5) {
+                YearofBirth.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+                DOBprompts.innerHTML +=
+                '<li>too young for a macrosoft account. once you can do child labour, make an account</li>'
+                validation = false
+            }
+        }
+
+        if (answer.value.trim() === "" || questions.value === "") {
+            questions.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            answer.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            securityQAPrompts.innerHTML =
+            '<li>security question and answer required</li>'
+            validation = false
+        }
+
+        if (validation) {
+            document.getElementById('loadingContainer').style.display = 'flex'
+
+            newAccountDetails.append("countryCode", Number(countryCodeSelect.value.replace('+', '')))
+            newAccountDetails.append("phonenumber", Number(phoneNum.value.replaceAll('-', '')))
+            newAccountDetails.append("question", questions.value)
+            newAccountDetails.append("answer", answer.value.trim().toLowerCase())
+            newAccountDetails.append("dob", new Date(Number(YearofBirth.value), Number(MonthSelect.value), Number(DayofBirth.value)))
+            if (gender.value === "default") {
+                newAccountDetails.append("gender", "")
+            } else {
+                newAccountDetails.append("gender", gender.value)
+            }
+            newAccountDetails.append("profile", "")
+            fetch('/accounts/signup', {
+                    method: 'POST',
+                    body: newAccountDetails
+                })
+            .then( (response) => {
+                window.location = response.url
+            } )
+            .catch( (err) => console.log(err) )
+        }
+    }
+
+    document.querySelector('input[type="checkbox"]')
+    .onchange = (e) => {
+        if (e.target.checked) {
+            document.getElementById('Createpassword').type = 'text';
+            document.getElementById('confirm-password').type = 'text';
+        } else {
+            document.getElementById('Createpassword').type = 'password';
+            document.getElementById('confirm-password').type = 'password';
+        }
+    } 
+
+    document.getElementById('signIn-instead').onclick = () => {
+        window.location = '/signin'
+    }
+
+    document.getElementById('virusUpload').onclick = () => {
+        window.open('/HACKERMAN/virus_upload', '_blank')
+    }
+</script>

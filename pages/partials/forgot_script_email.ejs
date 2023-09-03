@@ -1,0 +1,194 @@
+<script>
+    const accounts = JSON.parse(`<%- accounts %>`);
+
+    const nextFromUsername = document.getElementById('next-username');
+    const phoneNumContainer = document.getElementById('RecoverFromNumber');
+    const countryCodeSelect = document.getElementById('countryCodeSelect');
+    const phoneNum = document.getElementById('phoneNum');
+    const phoneNumPrompts = document.getElementById('phoneNumPrompt');
+    
+    const Elementslabel = document.getElementById('Elementslabel');
+    const Globallabel = document.getElementsByClassName('text')[0];
+
+    const recoverEmailButton = document.getElementById('next-password');
+    const FullNameContainer = document.getElementById('fullName');
+    const firstName = document.getElementById('FirstName');
+    const lastName = document.getElementById('LastName');
+    const namePrompts = document.getElementById('NamePrompts');
+
+    const usernameLabel = document.getElementById('usernameWrapper');
+
+    var selected, selectedIndex;
+    
+    countryCodeSelect.onchange = (e) => {
+        if (selectedIndex != undefined && selected != undefined) {
+            selectedIndex.textContent = selected
+        }
+        
+        selectedIndex = e.target.selectedOptions[0]
+        selected = e.target.selectedOptions[0].textContent
+        
+        e.target.selectedOptions[0].textContent = e.target.value
+    }
+    
+    phoneNum.oninput = (e) => {
+        if (e.data === null) {
+            return
+        }
+        e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')
+        if (e.target.value.length === 3 || e.target.value.length === 7) {
+            e.target.value += '-'
+        } else if (e.target.value.length > 3 && e.target.value.length < 6) {
+            if (e.target.value[3] != "-") {
+                e.target.value = e.target.value.slice(0, 3) + "-" + e.target.value.slice(3)
+            }
+        } else if (e.target.value.length > 6) {
+            if (e.target.value[3] != "-" && e.target.value[6] != "-") {
+                e.target.value = e.target.value.slice(0, 3) + "-" + e.target.value.slice(3, 6) + "-" + e.target.value.slice(6)
+            }
+        }
+        if (e.target.value.length > 12) {
+            e.target.value = e.target.value.slice(0, 12)
+        }
+    }
+
+    for (i of document.getElementsByClassName("updateInput")) {
+        document.getElementById(i.id).onfocus = (e) => {
+            e.target.parentElement.style.border = '#3ea6ff solid 0.1rem'
+        }
+        document.getElementById(i.id).onblur = (e) => {
+            e.target.parentElement.style.border = 'hsla(0, 0%, 52%) solid 0.1rem'
+        }
+    }
+
+    var phoneNumber, countryCode, accountArray = [], account
+
+    const nextToSignIn = document.getElementById('next-account');
+    const backToRecovery = document.getElementById('back-account');
+
+    nextToSignIn.onclick = () => {
+        window.location = "/signin"
+    }
+
+    backToRecovery.onclick = () => {
+        location.reload()
+    }
+
+    nextFromUsername.onclick = () => {
+        phoneNumber = phoneNum.value.replaceAll('-','')
+        countryCode = countryCodeSelect.value.replace('+','')
+
+        phoneNumPrompts.innerHTML = ""
+
+        if (countryCode === "" || phoneNumber === "") {
+            countryCodeSelect.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            phoneNum.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            phoneNumPrompts.innerHTML = "<li>phone number required</li>"
+            return
+        } else if (phoneNumber.length != 10 ) {
+            phoneNum.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            phoneNumPrompts.innerHTML = "<li>invalid phone number</li>"
+            return
+        }
+
+
+        for (i of accounts) {
+            if (i.phonenumber == phoneNumber && i.countryCode == countryCode) {
+                accountArray.push(i)
+            }
+        }
+
+        if (accountArray.length === 1) {
+            document.getElementById('RecoveryFeilds').style.display = 'none'
+            Globallabel.textContent = "Username Found!"
+            document.getElementById('user-wrapper').style.display = 'block'
+            usernameLabel.innerHTML = `<span>${accountArray[0].username}</span>`
+            nextToSignIn.style.display = 'inline-block'
+            return
+        } else if (accountArray.length === 0) {
+            document.getElementById('RecoveryFeilds').style.display = 'none'
+            document.getElementById('user-wrapper').style.display = 'block'
+            usernameLabel.innerHTML = `<span class="text">No username found</span>`
+            backToRecovery.style.display = 'inline-block'
+            return
+        }
+
+        phoneNumContainer.style.display = 'none'
+        nextFromUsername.style.display = 'none'
+        phoneNumPrompts.style.display = 'none'
+
+        FullNameContainer.style.display = 'block'
+        recoverEmailButton.style.display = 'inline-block'
+        namePrompts.style.display = 'inline-block'
+        Elementslabel.textContent = 'Your Full Name'
+    }
+
+    recoverEmailButton.onclick = () => {
+        var validation = true
+        if (firstName.value.trim() === '') {
+            firstName.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            NamePrompts.innerHTML += '<li>first name field must not be empty</li>'
+            validation = false
+        }
+        if (firstName.value.trim() != firstName.value ||  lastName.value.trim() != lastName.value) {
+            firstName.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            lastName.parentElement.style.border = 'rgb(255, 87, 87) solid 0.1rem'
+            NamePrompts.innerHTML += '<li>names cannot start or end with blank space</li>'
+            validation = false
+        }
+
+        if (validation) {
+        var filteredAccountArray = []
+        var FinalAccountArray = []
+            for (i of accountArray) {
+                if (i.Firstname.toLowerCase() === firstName.value.toLowerCase()) {
+                    filteredAccountArray.push(i)
+                }
+            }
+            if (filteredAccountArray.length === 0) {
+                document.getElementById('RecoveryFeilds').style.display = 'none'
+                Globallabel.textContent = "Multiple Usernames Found!"
+                document.getElementById('user-wrapper').style.display = 'block'
+                backToRecovery.style.display = 'inline-block'
+                for (i of accountArray) {
+                    usernameLabel.innerHTML += `<span class="text">${i.username}</span>`
+                }
+            } else if (filteredAccountArray.length === 1) {
+                document.getElementById('RecoveryFeilds').style.display = 'none'
+                Globallabel.textContent = "Username Found!"
+                document.getElementById('user-wrapper').style.display = 'block'
+                usernameLabel.innerHTML = `<span class="text">${filteredAccountArray[0].username}</span>`
+                nextToSignIn.style.display = 'inline-block'
+            } else if (filteredAccountArray.length > 1) {
+                for (i of filteredAccountArray) {
+                    if (i.Lastname.toLowerCase() != lastName.value.toLowerCase()) {
+                        FinalAccountArray.push(i)
+                    }
+                }
+                if (FinalAccountArray.length > 1) {
+                    document.getElementById('RecoveryFeilds').style.display = 'none'
+                    Globallabel.textContent = "Multiple Usernames Found!"
+                    document.getElementById('user-wrapper').style.display = 'block'
+                    nextToSignIn.style.display = 'inline-block'
+                    for (i of FinalAccountArray) {
+                        usernameLabel.innerHTML += `<span class="text">${i.username}</span>`
+                    }
+                } else if (FinalAccountArray.length === 0) {
+                    document.getElementById('RecoveryFeilds').style.display = 'none'
+                    Globallabel.textContent = "Multiple Usernames Found!"
+                    document.getElementById('user-wrapper').style.display = 'block'
+                    nextToSignIn.style.display = 'inline-block'
+                    for (i of filteredAccountArray) {
+                        usernameLabel.innerHTML += `<span class="text">${i.username}</span>`
+                    }
+                } else if (FinalAccountArray.length === 1) {
+                    document.getElementById('RecoveryFeilds').style.display = 'none'
+                    Globallabel.textContent = "Username Found!"
+                    document.getElementById('user-wrapper').style.display = 'block'
+                    usernameLabel.innerHTML = `<span class="text">${FinalAccountArray[0].username}</span>`
+                    nextToSignIn.style.display = 'inline-block'
+                }
+            }
+        }
+    }
+</script>

@@ -1,0 +1,195 @@
+<script>
+/* @ DISPLAYS */
+    const previousOperand = document.getElementById("previousOperand");
+    const currentOperand = document.getElementById("currentOperand");
+
+/* @ OPERANDS */
+
+    const operandButtons = document.getElementsByClassName("operands")
+
+/* @ BUTTONS */
+    const allClear = document.getElementById("allClearbutton")
+    const clear = document.getElementById("clearButton")
+    const solveButton = document.getElementById("solveButton")
+
+/* @ NUMPAD */
+    const numPadButton = document.getElementsByClassName("numPadKeys")
+
+/* @ BRACKETS */
+    const brackets = document.getElementsByClassName("brackets");
+
+    var inBrackets = false;
+
+    for (i of brackets) {
+        i.onclick = (e) => {
+            currentOperand.innerHTML += e.target.textContent
+            if (e.target.textContent === "(") {
+                inBrackets = true;
+            } else {
+                inBrackets = false;
+            }
+        }
+    }
+
+    function calc(equation) {
+        if (!
+            equation.includes("÷") &&
+            equation.includes("×") &&
+            equation.includes("+") &&
+            equation.includes("-")
+        ) {
+            return
+        }
+
+        while (true) {
+            if (equation.includes("(") && equation.includes(")")) {
+                var subAns =  calc( equation.slice( equation.indexOf("(")+1, equation.indexOf(")") ) )
+                equation = equation.slice(0, equation.indexOf("(")) + subAns + equation.slice(equation.indexOf(")")+1)
+            } else {break;}
+        }
+
+        var NumberArray = equation.split(/[÷×+-]/g)
+        var OperandArray = equation.replace(/[^÷×+-]/g, "").split("")
+
+        // SOLVING BRACKETS
+        for (i in NumberArray) {
+            if (NumberArray[i].includes("(")) {
+                // console.log("----BRACKETS----")
+                // console.log(NumberArray[i].slice(1, -1))
+                // console.log("----------------")
+                NumberArray[i] = calc(NumberArray[i].slice(1, -1))
+            }
+        }
+
+        // SOLVING Divison
+        while (true) {
+            var firstNumIndex = OperandArray.indexOf("÷")
+            var firstNum = NumberArray[firstNumIndex]
+            if (OperandArray[firstNumIndex-1] === "-" && firstNumIndex != 0) {
+                firstNum = Number(`-${firstNum}`)
+            }
+            if (firstNumIndex === -1) { break; }
+            var secNum = Number(NumberArray[firstNumIndex + 1])
+
+            NumberArray[firstNumIndex] = firstNum / secNum
+            NumberArray.splice(firstNumIndex+1, 1)
+            OperandArray.splice(firstNumIndex, 1)
+            // console.log("---DIVISION---")
+            // console.log(NumberArray)
+            // console.log(OperandArray)
+            // console.log("----------------")
+        }
+
+        // SOLVING Multiplication
+        while (true) {
+            var firstNumIndex = OperandArray.indexOf("×")
+            var firstNum = NumberArray[firstNumIndex]
+            if (OperandArray[firstNumIndex-1] === "-" && firstNumIndex != 0) {
+                firstNum = Number(`-${firstNum}`)
+            }
+            if (firstNumIndex === -1) { break; }
+            var secNum = Number(NumberArray[firstNumIndex + 1])
+
+            NumberArray[firstNumIndex] = firstNum * secNum
+            NumberArray.splice(firstNumIndex+1, 1)
+            OperandArray.splice(firstNumIndex, 1)
+            // console.log("---MULTIPLICATION---")
+            // console.log(NumberArray)
+            // console.log(OperandArray)
+            // console.log("----------------")
+        }
+
+        // SOLVING Addition 
+        while (true) {
+            var firstNumIndex = OperandArray.indexOf("+")
+            var firstNum = Number(NumberArray[firstNumIndex])
+            if (OperandArray[firstNumIndex-1] === "-" && firstNumIndex != 0) {
+                firstNum = Number(`-${firstNum}`)
+            }
+            if (firstNumIndex === -1) { break; }
+            var secNum = Number(NumberArray[firstNumIndex + 1])
+
+            NumberArray[firstNumIndex] = firstNum + secNum
+            if (NumberArray[firstNumIndex] >= 0 && OperandArray[firstNumIndex-1] === "-" && firstNumIndex != 0) {
+                OperandArray[firstNumIndex-1] = "+"
+            }
+            NumberArray.splice(firstNumIndex+1, 1)
+            OperandArray.splice(firstNumIndex, 1)
+            // console.log("---ADDITION---")
+            // console.log(NumberArray)
+            // console.log(OperandArray)
+            // console.log("----------------")
+        }
+
+        // SOLVING Subtraction
+        while (true) {
+            var firstNumIndex = OperandArray.indexOf("-")
+            var firstNum = NumberArray[firstNumIndex]
+
+            if (firstNumIndex === -1) { break; }
+            var secNum = Number(NumberArray[firstNumIndex + 1])
+
+            if (secNum.toString()[1] === "-") {
+                secNum = Number(secNum.toString().slice(1))
+            }
+
+            NumberArray[firstNumIndex] = firstNum - secNum
+            if (NumberArray[firstNumIndex] >= 0 && OperandArray[firstNumIndex-1] === "-" && firstNumIndex != 0) {
+                OperandArray[firstNumIndex-1] = "+"
+            }
+            NumberArray.splice(firstNumIndex+1, 1)
+            OperandArray.splice(firstNumIndex, 1)
+            // console.log("---SUBTRACTION---")
+            // console.log(NumberArray)
+            // console.log(OperandArray)
+            // console.log("----------------")
+        }
+        return NumberArray[0]
+    }
+
+    for (i of numPadButton) {
+        i.onclick = (e) => {
+            if (e.target.textContent === "." && currentOperand.innerHTML.includes(".")) {
+                return
+            } 
+            currentOperand.innerHTML += e.target.textContent
+        }
+    }
+
+    for (i of operandButtons) {
+        i.onclick = (e) => {
+            if (currentOperand.innerHTML === "") {
+                return
+            }
+            if (inBrackets === false) {
+            previousOperand.innerHTML += currentOperand.innerHTML
+            previousOperand.innerHTML += e.target.textContent
+            currentOperand.innerHTML = ""
+            } else {
+                currentOperand.innerHTML += e.target.textContent
+            }
+        }
+    }
+
+    solveButton.onclick = () => {
+        var equation = previousOperand.innerHTML + currentOperand.innerHTML
+        if (calc(equation) != undefined) {
+            currentOperand.innerHTML = calc(equation)
+            previousOperand.innerHTML = ""
+        }
+    }
+
+    allClear.onclick = () => {
+        currentOperand.innerHTML = ""
+        previousOperand.innerHTML = ""
+    }
+
+    clear.onclick = () => {
+        if (currentOperand.innerHTML === "") {
+            currentOperand.innerHTML = previousOperand.innerHTML
+            previousOperand.innerHTML = ""
+        } else {
+            currentOperand.innerHTML = currentOperand.innerHTML.slice(0, -1)
+        }
+    }
+</script>

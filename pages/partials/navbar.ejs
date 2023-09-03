@@ -1,0 +1,56 @@
+<section id="navbar">
+    <div class="items" id="watermark">
+        <a href="/scufftube">
+        <img src="/scuffTube.png" class="watermarkImgScuffTube"> </a>
+     </div>
+    <div class="items" id="searchnav">
+     <input type="search" id="searchbar" placeholder="Search">
+     <img src="/search.svg" id="search">
+     </div>
+    <div class="items createButtons" id="extraButtonsHidden">&#x22EE;</div>
+    <div class="items createButtons" id="deleteNavButton"><abbr title="Delete Videos"><img src="/delete.png"></abbr></div>
+    <div class="items createButtons" id="upload-button"><abbr title="Upload Videos"><img src="/create.png"></abbr></div>
+    <div class="items submitButton" id="signInButton">SIGN IN</div>
+    <div id="profile-container" class="items" style="display: none;">
+      <img src="/blank-profile-picture.png" id="profile-pic">
+  </div>
+ </section>
+
+ <script>
+    document.getElementById("deleteNavButton").onclick = () => {location = `/scufftube/delete`}
+    document.getElementById("upload-button").onclick = () => {window.open("/scufftube/studio", '_blank')}
+    document.getElementById("signInButton").onclick = () => window.location = "/signin"
+
+    const extraButtonsHidden = document.getElementById("extraButtonsHidden");
+   
+    if (localStorage.getItem("signedIn") != null) {
+      const {profile, id} = JSON.parse(localStorage.getItem("signedIn"));
+
+      if ( profile != "" ) {
+         document.getElementById('profile-pic').src = profile
+      }
+      document.getElementById("signInButton").style.display = 'none'
+      document.getElementById('profile-container').style.display = 'block'
+      document.getElementById('profile-pic').onclick = () => {location = `/manageAccount/${id}`}
+   }
+
+   if (extraButtonsHidden.style.display != "none") {
+      extraButtonsHidden.onclick = () => {
+         // console.log(extraButtonsHidden.offsetLeft)
+         // console.log(document.getElementById("deleteNavButton"))
+         if (
+            document.getElementById("deleteNavButton").style.display === "flex" &&
+            document.getElementById("upload-button").style.display === "flex"
+         ) {
+            document.getElementById("deleteNavButton").style.display = "none"
+            document.getElementById("upload-button").style.display = "none"
+         } else {
+            document.getElementById("deleteNavButton").style.display = "flex"
+            document.getElementById("upload-button").style.display = "flex"
+            document.getElementById("deleteNavButton").style.left = `${extraButtonsHidden.offsetLeft-26}px`
+            document.getElementById("upload-button").style.left = `${extraButtonsHidden.offsetLeft-26}px`
+         }
+      }
+   }
+
+ </script>

@@ -1,0 +1,48 @@
+<script>
+    const signedInAccountId = JSON.parse(localStorage.getItem("signedIn"))["id"]
+    const urlID = window.location.pathname.slice(18)
+
+    if (localStorage.getItem("signedIn") === null) {
+        window.location = '/signin'
+    } else if (urlID != signedInAccountId) {
+        window.location = `/scufftube/delete/${signedInAccountId}`
+    }
+
+    let details;
+    window.onload = () => {
+        details = Array.from(document.getElementsByClassName('query-listITEM'))
+    }
+
+    const searchBar = document.getElementById('deleteSearch');
+    const deleteButton = document.getElementsByClassName('query-listITEM');
+    const body = document.getElementById('studioDelete');
+    const wrapper = document.getElementById('query-wrapper')
+
+    searchBar.onkeyup = (e) => {
+        searchString = e.target.value.toLowerCase()
+        newList = ""
+        for (let i=0; i < details.length; i++) {
+            if (details[i].children[1].firstChild.textContent.trim().toLowerCase().includes(searchString)) {
+                newList += details[i].outerHTML
+            }
+        }
+        wrapper.innerHTML = newList
+    }
+    
+    for (i of deleteButton) {
+        i.onclick = (e) => {
+            document.getElementById("loadingContainer").style.display = "flex"
+
+            var endpoint = `/videos/delete/${e.target.parentElement.id}`
+            console.log(endpoint)
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+            .then( (response) => {
+                document.getElementById("query-wrapper").removeChild(e.target.parentElement)
+                document.getElementById("loadingContainer").style.display = "none"
+            } )
+            .catch( (err) => console.log(err) )
+        }
+    }
+</script>

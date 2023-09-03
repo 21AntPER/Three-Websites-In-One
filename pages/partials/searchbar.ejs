@@ -1,0 +1,17 @@
+<script>
+    const searchbar = document.getElementById('searchbar');
+    const searchButton = document.getElementById('search');
+
+    searchbar.addEventListener('keypress', (e) => {
+        if (e.code === 'Enter') {
+            searchButton.click()
+        }
+    })
+
+    searchButton.addEventListener('click', () => {
+        if (searchbar.value.trim() != ''){
+            console.log(window.location)
+            window.location = `/results/query/${searchbar.value.replace(' ', '_')}`
+        }
+    } )
+</script>
