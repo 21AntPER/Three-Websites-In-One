@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scufftube Studio - UPLOAD</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="shortcut icon" href="/scufftube_logo.png" type="image/x-icon">
+</head>
+<body id="studio">
+    <div class="animate">
+        <img src="/scufftube_logo.png" alt="">
+        <p>ScuffTube Studio</p>
+    </div><br><br>
+    <div id="upload-container">
+        <img src="/upload.png" alt="" id="upload"><br>
+        <h4>Drag and drop files to upload</h4><br>
+        <label>SELECT FILES</label>
+    </div>
+    <br><br>
+<form id="upload_form">
+    <input type="file" id="vid-input" accept="video/*" name="video">
+        <section id="right-content">
+            <div id="titleContainerInStudio">
+                <label for="title">Title (required)</label>
+                <br>
+                <input type="text" id="title" placeholder="Add a title that describes your video" input maxlength="100" name="title" required>
+            </div>
+            <br>
+            <div id="descContainerInStudio">
+                <label for="desc">Description</label>
+                <br>
+                <textarea id="desc" placeholder="Tell viewers about your video" name="description"></textarea>
+            </div>
+            <br>
+            <div>
+                <label for="thumbnail">Thumbnail(Optional)</label>
+                <p>
+                Upload a picture that shows what's in your video. <br>
+                A good thumbnail stands out and draws viewers' attention.
+                </p>
+                <img src="/thumnail_upload.png" id="thumbnail_upload_img">
+                <input type="file" id="thumbnail" accept="image/*" name="thumbnail">
+            </div>
+        </section>
+        <section id="left-content">
+            <label>Video preview</label><br>
+            <video src="" controls id="videoplayback"></video><br>
+            <label>Thumbnail Preview</label><br>
+            <span id="thumbnail-preview-container">
+                <img src="/thumbnail_mime2.png" alt="no thumbnail found" id="thumbnail-preview">
+            </span>
+            <br><br>
+            <button id="submit-button" class="submitButton" type="button">UPLOAD</button>
+        </section>
+</form>
+    <div id="loadingContainer">
+        <span id="text">UPLOADING...</span>
+        <span>
+            <img src="/loading.svg" id="loading">
+        </span>
+    </div>
+    <%- include('./partials/studio_script')%> 
+</body>
+</html>

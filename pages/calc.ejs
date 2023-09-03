@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Macrosoft Calc</title>
+  <link rel="stylesheet" href="/styles/calc.css">
+  <link rel="shortcut icon" type="image/x-icon" href="/calcLogo.png">
+</head>
+<body>
+  <div id="calcContainer">
+    <div id="display">
+      <div id="previousOperand"></div>
+      <div id="currentOperand"></div>
+    </div>
+    <div id="keys">
+      <div id="leftKeys">
+        <div id="allClearbutton">AC</div>
+        <div id="clearButton">C</div>
+        <div id="BracketsButton">
+          <div id="openBrackets" class="brackets">(</div>
+          <div id="closeBrackets" class="brackets">)</div>
+        </div>
+        <div class="numPadKeys" id="1">7</div>
+        <div class="numPadKeys" id="2">8</div>
+        <div class="numPadKeys" id="3">9</div>
+        <div class="numPadKeys" id="4">4</div>
+        <div class="numPadKeys" id="5">5</div>
+        <div class="numPadKeys" id="6">6</div>
+        <div class="numPadKeys" id="7">1</div>
+        <div class="numPadKeys" id="8">2</div>
+        <div class="numPadKeys" id="9">3</div>
+        <div class="numPadKeys" id="0" style="grid-column: span 2 / auto;">0</div>
+        <div class="numPadKeys" id=".">.</div>
+      </div>
+      <div id="rightKeys">
+        <div class="operands" id="divideButton">&divide</div>
+        <div class="operands" id="multiplyButton">&#215</div>
+        <div class="operands" id="additionButton">+</div>
+        <div class="operands" id="subtractionButton">-</div>
+        <div id="solveButton">=</div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./partials/operand.ejs") %>
+</body>
+</html>

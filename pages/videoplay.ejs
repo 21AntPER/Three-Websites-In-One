@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= video.title%></title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/scufftube_logo.png">
+</head>
+<body>
+    <%- include('./partials/navbar')%>
+
+    <main id="video-play_body">
+
+        <section id="videoDetails">
+            <video controls id="player-video" poster="<%= video.thumbnail %>" data-id="<%= id %>" autoplay>
+                <source src="/video/post/<%= id %>" type="video/mp4" >
+            </video>
+            <h3 id="title-video"><%= video.title %></h3>
+            <div class="main-metaData" id="video-metaData">
+                <% var FULLdate = new Date(video.createdAt).toDateString().split(' ') %>
+                <% var dateString = `${FULLdate[1]} ${FULLdate[2]}, ${FULLdate[3]}` %>
+                <%= viewsCalc(video.views) %> • <%= dateString %>
+            </div>
+                <hr>
+            <div id="videoDetailsContainer">
+                <div id="videoProfile">
+                <% if (video.profile != "") { %>
+                    <img src="<%= video.profile %>" id="videoProfilePic">
+                    <% } else { %>
+                    <img src="/blank-profile-picture.png" id="videoProfilePic">
+                    <% } %>
+                </div>
+                <h4 id="videoUsername"><%= video.FullName %></h4>
+            </div>
+            <p id="desc-video"><%= video.description %></p>
+        </section>
+
+        <div id="video-suggestions-container">
+            <hr>
+            <h2 style="color: white;">Other Videos</h2>
+        <% if (details.length > 0) { %>
+        <% details.forEach( (item) => { %>
+        <% if (`${video._id}` != `${item._id}`) { %>
+        <% if (item.thumbnail != "") { %>
+                <a href='/scufftube/videos/<%= item._id %>' >
+                        <div class="suggestions">
+                                <div class="suggestion-thumbnail-container">
+                                        <img src="<%= item.thumbnail %>" alt="" class="thumbnail_suggestions">
+                                </div>
+                                <div class="suggestions-video-textContent">
+                                        <% if (item.title.length > 58) { %>
+                                        <p class="video-play-title-max">
+                                            <%= item.title.slice(0, 58) %>
+                                        </p>
+                                        <% } else { %>
+                                        <p class="video-play-title">
+                                        <%= item.title %>
+                                        </p>
+                                        <% } %>
+                                        <p  class="main-Username" style="margin-bottom: 0.1rem;">
+                                        <%= item.FullName.trim() %>
+                                        </p>
+                                        <p class="main-metaData" style="margin-top: 0;">
+                                        <% var FULLdate = new Date(item.createdAt).toDateString().split(' ') %>
+                                        <% var dateString = `${FULLdate[1]} ${FULLdate[2]}, ${FULLdate[3]}` %>
+                                        <%= viewsCalc(item.views) %> • <%= dateString %>
+                                        </p>
+                                </div>
+                        </div>
+                </a>
+        <% } %>
+        <% } %>
+        <% } ) %>
+        <% } %>
+        </div>
+
+    </main>
+
+    <%- include('./partials/searchbar') %>
+
+    <script>
+
+            const video = document.getElementById('player-video');
+            const id = video.dataset.id
+
+            video.ontimeupdate = () => {
+                if (video.currentTime >= video.duration/6) {
+                    fetch(`/viewIncrement/${id}`, {
+                        method: 'POST'
+                    })
+                    video.ontimeupdate = () => {}
+                }
+            }
+    </script>
+
+</body>
+</html>

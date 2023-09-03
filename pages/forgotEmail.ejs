@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Username</title>
+    <link rel="stylesheet" href="/styles/account.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/Macrosoft-logo.png">
+</head>
+<body>
+    <div id="signIn-wrapper">
+        <div id="macrosoft"><img src="/Macrosoft.png"></div>
+        <div class="text">Username Recovery</div>
+        <div id="RecoveryFeilds">
+            <div id="RecoverFromNumber">
+                <div id="phoneNum-container">
+                    <select id="countryCodeSelect" class="UpdateValue">
+                        <option value="" selected>Pick your country code</option>
+                        <% for (i in countryCodesObj) { %>
+                            <option value="<%= countryCodesObj[i] %>"><%=`${i} (${countryCodesObj[i]})`%></option>
+                        <% } %>
+                    </select>
+                    <input type="text" id="phoneNum" maxlength="12" placeholder="Enter your phone number"
+                    style="border: hsla(0, 0%, 52%) solid 0.1rem;" class="UpdateValue"
+                    onfocus="this.style.border = '#3ea6ff solid 0.1rem' "
+                    onblur="this.style.border = 'hsla(0, 0%, 52%) solid 0.1rem' ">
+                </div>
+            </div>
+            <div id="fullName" style="display: none;">
+                <fieldset>
+                    <legend>First Name</legend>
+                    <input type="text" id="FirstName" class="UpdateValue updateInput">
+                </fieldset>
+                <fieldset>
+                    <legend>Last Name</legend>
+                    <input type="text" id="LastName" class="UpdateValue updateInput">
+                </fieldset>
+            </div>
+            <span class="label-extraDetails" id="Elementslabel">Your phone number</span><br>
+            <ul id="phoneNumPrompt" class="prompts">
+                    
+            </ul>
+            <ul id="NamePrompts" class="prompts" style="display: none;">
+
+            </ul>
+            <div id="nextContainer">
+                <button id="next-username" class="next" style="width: 100%;">Next</button>
+                <button id="next-password" class="next" style="width: 100%;">Next</button>
+            </div>
+        </div>
+        <div id="user-wrapper" style="display: none;text-align: center;">
+            <div id="usernameWrapper">
+            </div> <br>
+            <span class="label-extraDetails">Your username</span>
+            <div id="nextContainer">
+                <button id="next-account" class="next" style="width: 100%;display: none;">Go to SignIn</button>
+                <button id="back-account" class="next" style="width: 100%;display: none;">Go Back</button>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/forgot_script_email.ejs') %>
+</body>
+</html>

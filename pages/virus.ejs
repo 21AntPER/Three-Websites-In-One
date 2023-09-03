@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>127.0.0.1</title>
+    <link rel="stylesheet" href="/styles/account.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/hack.png">
+</head>
+<body>
+    <div id="virusContainer">
+        <div>
+            <h2>UPLOADING HACKERMAN VIRUS <span id="progressLabel">0</span>% COMPLETE</h2>
+            <progress value="0" max="100" id="virusProgressBar"></progress>
+        </div>
+    </div>
+    <div id="HACK"></div>
+
+    <script>
+        const virusProgressBar = document.getElementById("virusProgressBar")
+        const progressLabel = document.getElementById("progressLabel")
+        function lag() { 
+            document.getElementById('HACK').innerHTML += "<span>HACKARAMAN</span>"
+            lag()
+        }
+        var laggyProgress;
+
+        var updateProgress = setInterval( () => {
+            if (virusProgressBar.value === 99) {
+                clearInterval(updateProgress) 
+                laggyProgress = setInterval( () => {
+                    if (virusProgressBar.value === 100) {                        
+                        clearInterval(laggyProgress)
+                        laggyprocess = setInterval(() => {
+                            document.getElementById('HACK').innerHTML += "<span>HACKARAMAN NUKE</span>"
+                        }, 50);
+                        setTimeout(() => {
+                            clearInterval(laggyprocess)
+                            lag()
+                        }, 3000);
+                    } else {
+                        virusProgressBar.value += 0.01
+                        progressLabel.textContent = `${parseFloat(progressLabel.textContent) + 0.01}`.slice(0,5)
+                    }
+                }, 500 )
+            } else { 
+                virusProgressBar.value++
+                progressLabel.textContent = parseInt(progressLabel.textContent) + 1
+            }
+        }, 50 )
+    </script>
+</body>
+</html>

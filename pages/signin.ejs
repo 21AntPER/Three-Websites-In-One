@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macrosoft - SignIn</title>
+    <link rel="stylesheet" href="/styles/account.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/Macrosoft-logo.png">
+</head>
+<body id="signInBody">
+    <div id="signIn-wrapper">
+        <div id="macrosoft"><img src="/Macrosoft.png"></div>
+        <div class="text">Sign in</div>
+        <div id="loginFeilds">
+            <div id="emailContainer">
+                <fieldset>
+                    <legend>Enter your username</legend>
+                    <input type="text" id="email-input" class="input-feilds">
+                </fieldset>
+                <ul id="emailError" class="prompts">
+                    
+                </ul>
+                <div id="emailPrompt"><span>Forgot email?</span></div>
+            </div>
+
+            <div id="passwordContainer">
+                <fieldset>
+                    <legend>Enter your password</legend>
+                    <input type="password" id="password-input" class="input-feilds">
+                </fieldset>
+                <ul id="passwordError" class="prompts">
+                    
+                </ul>
+                <div id="passPrompt">
+                    <input type="checkbox" id="show-password">Show password
+                </div>
+            </div>
+        </div>
+        <div id="nextContainer">
+            <div id="createAccountButton-wrapper">
+                <span id="createAccountButton">Create Account</span>
+            </div>
+            <div id="forgot-button-wrapper">
+                <span id="forgot-button">Forgot Password</span>
+            </div>
+            <button id="next-username" class="next">Next</button>
+            <button id="next-password" class="next">Next</button>
+        </div>
+    </div>
+
+    <%- include('./partials/signin_script.ejs') %>
+</body>
+</html>

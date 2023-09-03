@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Account</title>
+    <link rel="stylesheet" href="/styles/account.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/Macrosoft-logo.png">
+</head>
+<body>
+    <div id="signOut-wrapper">
+        <div id="macrosoft"><img src="/Macrosoft.png"></div>
+        <div class="text">Manage Account</div>
+        <div id="usernameLabel"></div>
+        <div id="flex-profileDetails">
+            <div id="ChangeProfile">
+                <div id="profile-container" style="margin: 0 auto;">
+                    <img src="/blank-profile-picture.png" id="profile-pic">
+                </div>
+                <input type="file" id="profileUpload" style="display: none;">
+                <button class="next" id="ChangePictureButton">Change Picture</button>
+            </div>
+            <div id="fullNameContainer">
+                <fieldset>
+                    <legend>First Name</legend>
+                    <input type="text" id="UpdateFirstName" class="UpdateValue updateInput" maxlength="36">
+                </fieldset>
+                <fieldset>
+                    <legend>Last Name</legend>
+                    <input type="text" id="UpdateLastName" class="UpdateValue updateInput" maxlength="36">
+                </fieldset>
+            </div>
+        </div>
+        <ul id="NamePrompts" class="prompts">
+
+        </ul>
+        <div id="changeRecoveryEmail">
+            <fieldset>
+                <legend id="security_question"></legend>
+                <input type="text" id="security_answer" class="UpdateValue updateInput">
+            </fieldset>
+        </div>
+        <div id="extraDetailsContainer">
+            <div id="changeNumber">
+                <select id="countryCodeSelect" class="UpdateValue">
+                    <option value="" selected>Pick your country code</option>
+                    <% for (i in countryCodesObj) { %>
+                        <option value="<%= countryCodesObj[i] %>"><%=`${i} (${countryCodesObj[i]})`%></option>
+                    <% } %>
+                </select>
+                <input type="text" id="phoneNum" maxlength="12" placeholder="Enter your phone number"
+                style="border: hsla(0, 0%, 52%) solid 0.1rem;" class="UpdateValue"
+                oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                onfocus="this.style.border = '#3ea6ff solid 0.1rem' "
+                onblur="this.style.border = 'hsla(0, 0%, 52%) solid 0.1rem' ">
+                <br><span class="label-extraDetails">Your phone number</span><br>
+                <ul id="phoneNumPrompt" class="prompts">
+
+                </ul>
+            </div>
+            <div id="changeDOB">
+                <input type="date" id="changeDOBinput" class="UpdateValue">
+                <br><span class="label-extraDetails">Your DOB</span><br>
+                <ul id="DOBprompts" class="prompts">
+
+                </ul>
+            </div>
+            <div id="changeGender">
+                <select id="changeGenderInput" class="UpdateValue">
+                    <option value="default">Gender</option>
+                    <option value="male">male</option>
+                    <option value="female">female</option>
+                    <option value="common">common</option>
+                    <option value="">Rather not say</option>
+                </select>
+                <br><span class="label-extraDetails">Your gender</span>
+            </div>
+        </div>
+        <div id="options-wrapper">
+            <div class="options"><span id="updateDetails">Update Details</span></div>
+            <div class="options"><span id="forgotButton">Forgot Password</span></div>
+            <div class="options"><span id="delAccount">Delete Account</span></div>
+            <div class="options"><span id="signOutButton">Sign Out</span></div>
+        </div>
+        <div id="loadingContainer">
+            <span id="text"></span>
+            <span>
+                <img src="/loading.svg" id="loading">
+            </span>
+        </div>
+    </div>
+
+    <%- include('./partials/manage_script') %>
+</body>
+</html>

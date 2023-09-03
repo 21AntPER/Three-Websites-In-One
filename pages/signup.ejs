@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macrosoft - SignUp</title>
+    <link rel="stylesheet" href="/styles/account.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/Macrosoft-logo.png">
+</head>
+<body id="signUp-body">
+    <div id="accountDetails">
+        <div id="left-content">
+            <div id="macrosoft"><img src="/Macrosoft.png"></div>
+            <div class="text">
+                Create a scuffed account
+            </div>
+            <div id="FullNameInput">
+                <fieldset>
+                    <legend>First name</legend>
+                    <input type="text" id="firstName" maxlength="36" class="input-feildsCreate">
+                </fieldset>
+                <fieldset>
+                    <legend>Last name</legend>
+                    <input type="text" id="lastName" class="input-feildsCreate" maxlength="36">
+                </fieldset>
+            </div>
+            <ul id="FullNamePrompts" class="prompts">
+                
+            </ul>
+            <div id="email">
+                <fieldset>
+                    <legend>Username</legend>
+                    <input type="text" maxlength="64" id="createEmail">
+                    <span id="domain">@lookinside.com</span>
+                </fieldset>
+                <% /* %> <p id="domain">@lookinside.com</p> <% */ %>
+            </div>
+            <ul id="EmailPrompts" class="prompts">
+
+            </ul>
+            <div id="CreatePassword">
+                <fieldset>
+                    <legend>Password</legend>
+                    <input type="password" class="input-feildsCreate" id="Createpassword">
+                </fieldset>
+                <fieldset>
+                    <legend>Confirm password</legend>
+                    <input type="password" class="input-feildsCreate" id="confirm-password">
+                </fieldset>
+            </div>
+            <ul id="PasswordPrompts" class="prompts">
+
+            </ul>
+            <input type="checkbox" id="show-password"> Show password
+            <div id="submit-wrapper">
+                <div id="signIn-instead-container">
+                    <span id="signIn-instead">Sign in instead</span>
+                </div>
+                <button class="next" id="next-CreateAccount">Next</button>
+            </div>
+        </div>
+        <div id="right-content">
+            <img 
+            src="https://ssl.gstatic.com/accounts/signup/glif/account.svg">
+            <div id="catchphrase">One account. All of you<br>serving Macrosoft</div>
+        </div>
+    </div>
+
+    <div id="recoveryDetails">
+        <div id="left-content">
+            <div id="macrosoft"><img src="/Macrosoft.png"></div>
+            <div class="text">
+                <span id="greetingtext"></span>
+            </div>
+            <div id="phoneNumrecover">
+                <select id="countryCodeSelect" class="input-feildsRecover">
+                    <option value="" selected>Pick your country code</option>
+                    <% for (i in countryCodesObj) { %>
+                        <option value="<%= countryCodesObj[i] %>"><%=`${i} (${countryCodesObj[i]})`%></option>
+                    <% } %>
+                </select>
+                <input type="text" id="phoneNum" maxlength="12" placeholder="Enter your phone number" class="input-feildsRecover"
+                oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                <ul id="phoneNumPrompts" class="prompts">
+                <p>
+                    Dud trust me. 
+                    Your number won't be visible to others...except me. 
+                    You can choose later whether to use it for other purposes. 
+                    If you get random emails and phone calls, you can't sue me.
+                </p>
+            </div>
+
+            </ul>
+            <div id="securityQA-container" style="margin-top: 0.5rem;">
+                <select id="questions">
+                    <option value="" selected>Pick a security question</option>
+                    <option value="What was your childhood nickname? ">What was your childhood nickname? </option>
+                    <option value="What street did you live on in third grade?">What street did you live on in third grade?</option>
+                    <option value="What is your oldest cousin's first and last name?">What is your oldest cousin's first and last name?</option>
+                    <option value="What school did you attend for sixth grade?">What school did you attend for sixth grade?</option>
+                    <option value="What was the name of your first stuffed animal?">What was the name of your first stuffed animal?</option>
+                    <option value="What was your dream job as a child? ">What was your dream job as a child? </option>
+                    <option value="In what city or town was your first job?">In what city or town was your first job?</option>
+                    <option value="What is the name of your favorite pet">What is the name of your favorite pet</option>
+                    <option value="What was your favorite place to visit as a child?">What was your favorite place to visit as a child?</option>
+                    <option value="What is your biggest pet peeve">What is your biggest pet peeve</option>
+                </select>
+                <input type="text"
+                placeholder="Your answer"
+                id="answer" class="input-feildsRecover">
+                <br>
+                <p>We'll use it to keep your account secure during recovery process</p>
+            </div>
+            <ul id="securityQA" class="prompts">
+
+            </ul>
+            <div id="DOB">
+                <select id="MonthSelect" class="input-feildsRecover">
+                    <option value="">Month</option>
+                    <option value="0">Jan</option>
+                    <option value="1">Feb</option>
+                    <option value="2">March</option>
+                    <option value="3">April</option>
+                    <option value="4">May</option>
+                    <option value="5">June</option>
+                    <option value="6">July</option>
+                    <option value="7">Aug</option>
+                    <option value="8">Sep</option>
+                    <option value="9">Oct</option>
+                    <option value="10">Nov</option>
+                    <option value="11">Dec</option>
+                </select>
+                <input type="text" id="DayofBirth" placeholder="Day" maxlength="2" class="input-feildsRecover"
+                oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                <input type="text" id="YearofBirth" placeholder="Year" class="input-feildsRecover"
+                oninput="this.value = this.value.replace(/[^0-9-]/g, '').replace(/(\..*?)\..*/g, '$1');">
+            </div>
+            <p>Your date of birth</p>
+            <ul id="DOBprompts" class="prompts">
+
+            </ul>
+            
+            <select id="gender" class="input-feildsRecover">
+                <option value="default">Gender</option>
+                <option value="male">male</option>
+                <option value="female">female</option>
+                <option value="common">common</option>
+                <option value="">Rather not say</option>
+            </select>
+            <div id="submit-wrapper" style="margin-top: 2rem;">
+                <div id="signIn-instead-container">
+                    <span id="virusUpload">Why we ask this information</span>
+                </div>
+                <button class="next" id="next-recoveryDetails">Next</button>
+            </div>
+        </div>
+        
+        <div id="right-content">
+            <img 
+            src="https://ssl.gstatic.com/accounts/signup/glif/personal.svg">
+            <div id="catchphrase">Your personal info is better with us</div>
+        </div>
+        <div id="loadingContainer" style="display: none;">
+            <span id="text">CREATING ACCOUNT....</span>
+            <span>
+                <img src="/loading.svg" id="loading">
+            </span>
+        </div>
+    </div>
+
+    <%- include('./partials/signup_script') %>
+</body>
+</html>
+
+<% /* %>
+username
+username must be between 6 to 30 characters long
+letters numbers and periods allowed
+username is taken try another
+
+password
+8+ characters
+
+<% */ %>

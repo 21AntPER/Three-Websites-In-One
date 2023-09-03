@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScuffTube Studio - DELETE</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="shortcut icon" href="/scufftube_logo.png" type="image/x-icon">
+</head>
+<body id="studioDelete">
+    <div class="animate">
+        <img src="/scufftube_logo.png" alt="">
+        <p>ScuffTube Studio</p>
+    </div><br><br><br><br>
+    <div id="deleteSearchContainer">
+        <input type="text" id="deleteSearch" placeholder="Search Videos to delete">
+    </div>
+    <br>
+    <ul id="query-wrapper">
+        <% if (docs.length > 0) { %>
+            <% docs.forEach( (item) => { %>
+                <% if (item.thumbnail != "") { %>
+                    <li class="query-listITEM" id="<%= item._id %>">
+                        <div class="queryDELETE-Thumbnail-container">
+                            <img src=" <%= item.thumbnail %>" class="query-Thumbnail">
+                        </div>
+                        <p class="query-text">
+                            <%= item.title %>
+                            <br>
+                            <%= viewsCalc(item.views) %>
+                            <br><br>
+                            <% var FULLdate = new Date(item.createdAt).toDateString().split(' ') %>
+                            <% var dateString = `${FULLdate[1]} ${FULLdate[2]}, ${FULLdate[3]}` %>
+                            <%= dateString %>
+                        </p>
+                        <span class="delete-icon">DELETE</span>
+                    </li>
+                <% } %>
+            <% } ) %>
+        <% } %>
+    </ul>
+
+    <div id="loadingContainer">
+        <span id="text">DELETEING.....</span>
+        <span>
+            <img src="/loading.svg" id="loading">
+        </span>
+    </div>
+
+    <%- include('./partials/delete_script') %>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScuffTube</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/scufftube_logo.png">
+</head>
+<body>
+    <%- include('./partials/navbar')%>
+
+    <br>
+        <div id="videoGrid">
+            <% if (details.length > 0) { %>
+                <% details.forEach( (item) => { %>
+                    <div class="grid-item">
+                        <div class="videoContainer" id="<%= item._id %>">
+                            <a href="/scufftube/videos/<%= item._id %>">
+                            <div class="main-thumbnail">
+                                <img src="<%= item.thumbnail %>" class="homepage-thumbnail">
+                            </div>
+                            <div class="textDetails">
+                                <span class="main-profile">
+                                    <% if (item.profile != "") { %>
+                                    <img src="<%= item.profile %>" class="main-profilePic">
+                                    <% } else { %>
+                                    <img src="/blank-profile-picture.png" class="main-profilePic">
+                                    <% } %>
+                                </span>
+                                <div class="main-textContent">
+                                    <% if (item.title.length > 46) { %>
+                                        <div class="main-title-length">
+                                            <abbr title="<%= item.title %>"><%= item.title.slice(0, 46) %></abbr>
+                                        </div>
+                                        <% } else { %>
+                                        <div class="main-title">
+                                            <abbr title="<%= item.title %>">
+                                                <%= item.title %></div>
+                                            </abbr>
+                                        <% } %>
+                                    <div class="main-Username">
+                                        <%= item.FullName.trim() %>
+                                    </div>
+                                    <div class="main-metaData">
+                                        <% var FULLdate = new Date(item.createdAt).toDateString().split(' ') %>
+                                        <% var dateString = `${FULLdate[1]} ${FULLdate[2]}, ${FULLdate[3]}` %>
+                                        <%= viewsCalc(item.views) %> • <%= dateString %>
+                                    </div>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                <% } ) %>
+            <% } %>
+        </div>
+    
+    <%- include('./partials/searchbar') %>
+
+    <% /* %>
+    <script>
+        for (i of document.getElementsByClassName("videoContainer")) {
+            document.getElementById(i.id).onclick = () => {
+                window.location = `/videos/${i.id}`
+            }
+        }
+    </script>
+    <% */ %>
+
+</body>
+</html>

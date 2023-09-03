@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macrosoft ToDo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/todo.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/todoLogo.png">
+</head>
+<body>
+    <section id="topBar">
+        <div class="todoTopBarItem" id="todoInputContainer">
+            <input type="text" id="todoInput" placeholder="Enter task">
+            <button id="enterTask">Add Task</button>
+        </div>
+        <div id="profile-container" class="items">
+            <img src="/blank-profile-picture.png" id="profile-pic">
+        </div>
+        <div id="watermarkContainer" class="todoTopBarItem">
+            <img src="/Macrosoft-logo.png" id="watermark">
+            <h3 id="titleWatermark">ToDo</h3>
+        </div>
+    </section>
+    <main id="FulltasksContainer">
+        <div id="TasksContainer">
+            <ul id="tasks">
+                <li style="text-align: center;
+                font-weight: bold;
+                font-size: 1.5rem;">TASKS</li>
+            </ul>
+        </div>
+        <div id="DetailsContainer">
+            <form id="details">
+                <div style="width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                justify-content: center;">
+                    <div id="formHeadWrapper">
+                        <h1  id="formHeadText">TASK DETAILS</h1>
+                        <button id="editDetails" type="button">Edit Details</button>
+                    </div>
+                    
+                    <input 
+                    type="text" 
+                    id="taskTitle-Form"
+                    placeholder="Task"
+                    readonly>
+                </div>
+                <textarea id="taskInfo" placeholder="Task info..." readonly></textarea>
+                <button type="button"
+                id="UpdateDetails">Update Details</button>
+            </form>
+        </div>
+    </main>
+
+    <%- include("./partials/todoScript.ejs") %>
+</body>
+</html>
